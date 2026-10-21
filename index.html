@@ -71,7 +71,7 @@
     <!-- HALAMAN UTAMA APLIKASI -->
     <div id="appContainer" class="hidden min-h-screen flex flex-col">
         <!-- Header / Navbar -->
-        <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+        <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                 <div class="flex items-center space-x-3">
                     <div class="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-md shadow-blue-100">
@@ -92,27 +92,33 @@
         </header>
 
         <!-- Main Content Area -->
-        <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
             
-            <!-- NAVIGASI TAB MENU -->
-            <div class="flex flex-col sm:flex-row gap-2 border-b border-slate-200 pb-4 mb-6 sm:overflow-x-auto" id="navTabs">
-                <button onclick="switchTab('dashboard')" id="tab-dashboard" class="admin-only tab-btn px-4 py-2 rounded-xl font-medium text-sm bg-blue-600 text-white shadow-md shadow-blue-100 transition whitespace-nowrap">
-                    <i class="fa-solid fa-chart-pie mr-2"></i>Dasboard
+            <!-- NAVIGASI MENU UTAMA (BERSIH & RAPI) -->
+            <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap gap-2" id="navTabs">
+                <button onclick="switchTab('dashboard')" id="tab-dashboard" class="admin-only tab-btn px-4 py-2.5 rounded-xl font-medium text-sm bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition flex items-center space-x-2">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Dashboard</span>
                 </button>
-                <button onclick="switchTab('stok')" id="tab-stok" class="tab-btn px-4 py-2 rounded-xl font-medium text-sm bg-white text-slate-600 hover:bg-slate-100 transition whitespace-nowrap">
-                    <i class="fa-solid fa-boxes-stacked mr-2"></i>Stok HP Tersedia
+                <button onclick="switchTab('stok')" id="tab-stok" class="tab-btn px-4 py-2.5 rounded-xl font-medium text-sm bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition flex items-center space-x-2">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                    <span>Stok HP Tersedia</span>
                 </button>
-                <button onclick="switchTab('inputStok')" id="tab-inputStok" class="admin-only tab-btn px-4 py-2 rounded-xl font-medium text-sm bg-white text-slate-600 hover:bg-slate-100 transition whitespace-nowrap">
-                    <i class="fa-solid fa-plus-circle mr-2"></i>Input Stok Baru
+                <button onclick="switchTab('inputStok')" id="tab-inputStok" class="admin-only tab-btn px-4 py-2.5 rounded-xl font-medium text-sm bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition flex items-center space-x-2">
+                    <i class="fa-solid fa-plus-circle"></i>
+                    <span>Input Stok HP Baru</span>
                 </button>
-                <button onclick="switchTab('terjual')" id="tab-terjual" class="admin-only tab-btn px-4 py-2 rounded-xl font-medium text-sm bg-white text-slate-600 hover:bg-slate-100 transition whitespace-nowrap">
-                    <i class="fa-solid fa-receipt mr-2"></i>Riwayat & Pelanggan
+                <button onclick="switchTab('terjual')" id="tab-terjual" class="admin-only tab-btn px-4 py-2.5 rounded-xl font-medium text-sm bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition flex items-center space-x-2">
+                    <i class="fa-solid fa-receipt"></i>
+                    <span>Riwayat & Pelanggan</span>
                 </button>
-                <button onclick="switchTab('keuangan')" id="tab-keuangan" class="admin-only tab-btn px-4 py-2 rounded-xl font-medium text-sm bg-white text-slate-600 hover:bg-slate-100 transition whitespace-nowrap">
-                    <i class="fa-solid fa-wallet mr-2"></i>Kas Toko / Biaya
+                <button onclick="switchTab('keuangan')" id="tab-keuangan" class="admin-only tab-btn px-4 py-2.5 rounded-xl font-medium text-sm bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition flex items-center space-x-2">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span>Kas Toko Biaya</span>
                 </button>
-                <button onclick="switchTab('users')" id="tab-users" class="admin-only tab-btn px-4 py-2 rounded-xl font-medium text-sm bg-white text-slate-600 hover:bg-slate-100 transition whitespace-nowrap">
-                    <i class="fa-solid fa-users-gear mr-2"></i>Kelola Akun Login
+                <button onclick="switchTab('users')" id="tab-users" class="admin-only tab-btn px-4 py-2.5 rounded-xl font-medium text-sm bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition flex items-center space-x-2">
+                    <i class="fa-solid fa-users-gear"></i>
+                    <span>Kelola Akun</span>
                 </button>
             </div>
 
@@ -594,12 +600,12 @@
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(el => {
                 el.classList.remove('bg-blue-600', 'text-white', 'shadow-md', 'shadow-blue-100');
-                el.classList.add('bg-white', 'text-slate-600');
+                el.classList.add('bg-slate-100', 'text-slate-600');
             });
 
             document.getElementById('content-' + tabId).classList.remove('hidden');
             const activeBtn = document.getElementById('tab-' + tabId);
-            activeBtn.classList.remove('bg-white', 'text-slate-600');
+            activeBtn.classList.remove('bg-slate-100', 'text-slate-600');
             activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-md', 'shadow-blue-100');
 
             if(tabId === 'dashboard') updateDashboard();
