@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AZZAM STORE - Monitoring & Penjualan HP</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @media print {
+            body * { visibility: hidden; }
+            #printArea, #printArea * { visibility: visible; }
+            #printArea { position: absolute; left: 0; top: 0; width: 100%; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 font-sans text-slate-800">
+
+    <!-- HALAMAN LOGIN -->
+    <div id="loginPage" class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-xl p-8 border border-slate-100">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-2xl mb-4 shadow-lg shadow-blue-200">
+                    <i class="fa-solid fa-store text-2xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-slate-900">AZZAM STORE</h1>
+                <p class="text-sm text-slate-500 mt-1">Aplikasi Monitoring & Manajemen Handphone</p>
+            </div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Username</label>
+                    <input type="text" id="loginUser" required placeholder="Masukkan username..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-slate-50">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Password</label>
+                    <input type="password" id="loginPass" required placeholder="••••••••" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-slate-50">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg shadow-blue-200 transition-all">
+                    Masuk ke AZZAM STORE
+                </button>
+            </form>
+            <div class="mt-6 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                <p class="text-center text-xs font-semibold text-slate-500 uppercase mb-3">Brand Tersedia</p>
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="h-12 flex items-center justify-center bg-white rounded-lg border border-slate-100 px-2" title="Samsung">
+                        <img src="https://cdn.simpleicons.org/samsung/475569" alt="Samsung" class="h-6 max-w-full object-contain" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'text-xs font-bold text-slate-600',textContent:'Samsung'}))">
+                    </div>
+                    <div class="h-12 flex items-center justify-center bg-white rounded-lg border border-slate-100 px-2" title="Apple">
+                        <img src="https://cdn.simpleicons.org/apple/475569" alt="Apple" class="h-6 max-w-full object-contain" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'text-xs font-bold text-slate-600',textContent:'Apple'}))">
+                    </div>
+                    <div class="h-12 flex items-center justify-center bg-white rounded-lg border border-slate-100 px-2" title="Xiaomi">
+                        <img src="https://cdn.simpleicons.org/xiaomi/475569" alt="Xiaomi" class="h-6 max-w-full object-contain" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'text-xs font-bold text-slate-600',textContent:'Xiaomi'}))">
+                    </div>
+                    <div class="h-12 flex items-center justify-center bg-white rounded-lg border border-slate-100 px-2" title="OPPO">
+                        <img src="https://cdn.simpleicons.org/oppo/475569" alt="OPPO" class="h-6 max-w-full object-contain" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'text-xs font-bold text-slate-600',textContent:'OPPO'}))">
+                    </div>
+                    <div class="h-12 flex items-center justify-center bg-white rounded-lg border border-slate-100 px-2" title="vivo">
+                        <img src="https://cdn.simpleicons.org/vivo/475569" alt="vivo" class="h-6 max-w-full object-contain" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'text-xs font-bold text-slate-600',textContent:'vivo'}))">
+                    </div>
+                    <div class="h-12 flex items-center justify-center bg-white rounded-lg border border-slate-100 px-2" title="Huawei">
+                        <img src="https://cdn.simpleicons.org/huawei/475569" alt="Huawei" class="h-6 max-w-full object-contain" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'text-xs font-bold text-slate-600',textContent:'Huawei'}))">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HALAMAN UTAMA APLIKASI -->
+    <div id="appContainer" class="hidden min-h-screen flex flex-col">
+        <!-- Header / Navbar -->
+        <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-md shadow-blue-100">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-slate-900 text-lg block leading-tight">AZZAM STORE</span>
+                        <span id="userBadge" class="text-xs font-medium px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 uppercase">Admin</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="logout()" class="text-slate-500 hover:text-red-600 font-medium text-sm flex items-center space-x-1 px-3 py-2 rounded-lg hover:bg-red-50 transition">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span class="hidden sm:inline">Keluar</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            
+            <!-- NAVIGASI TAB MENU -->
+            <div class="flex flex-col sm:flex-row gap-2 border-b border-slate-200 pb-4 mb-6 sm:overflow-x-auto" id="navTabs">
+                <button onclick="switchTab('dashboard')" id="tab-dashboard" class="admin-only tab-btn px-4 py-2 rounded-xl font-medium text-sm bg-blue-600 text-white shadow-md shadow-blue-100 transition whitespace-nowrap">
+                    <i class="fa-solid fa-chart-pie mr-2"></i>Dasboard
+                </button>
+                <button onclick="switchTab('stok')" id="tab-stok" class="tab-btn px-4 py-2 rounded-xl font-medium text-sm bg-white text-slate-600 hover:bg-slate-100 transition whitespace-nowrap">
+                    <i class="fa-solid fa-boxes-stacked mr-2"></i>Stok HP Tersedia
+                </button>
+                <button onclick="switchTab('inputStok')" id="tab-inputStok" class="admin-only tab-btn px-4 py-2 rounded-xl font-medium text-sm bg-white text-slate-600 hover:bg-slate-100 transition whitespace-nowrap">
+                    <i class="fa-solid fa-plus-circle mr-2"></i>Input Stok Baru
+                </button>
+                <button onclick="switchTab('terjual')" id="tab-terjual" class="admin-only tab-btn px-4 py-2 rounded-xl font-medium text-sm bg-white text-slate-600 hover:bg-slate-100 transition whitespace-nowrap">
+                    <i class="fa-solid fa-receipt mr-2"></i>Riwayat & Pelanggan
+                </button>
+                <button onclick="switchTab('keuangan')" id="tab-keuangan" class="admin-only tab-btn px-4 py-2 rounded-xl font-medium text-sm bg-white text-slate-600 hover:bg-slate-100 transition whitespace-nowrap">
+                    <i class="fa-solid fa-wallet mr-2"></i>Kas Toko / Biaya
+                </button>
+                <button onclick="switchTab('users')" id="tab-users" class="admin-only tab-btn px-4 py-2 rounded-xl font-medium text-sm bg-white text-slate-600 hover:bg-slate-100 transition whitespace-nowrap">
+                    <i class="fa-solid fa-users-gear mr-2"></i>Kelola Akun Login
+                </button>
+            </div>
+
+            <!-- KONTEN: DASHBOARD -->
+            <div id="content-dashboard" class="tab-content space-y-6">
+                <!-- Statistik Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-semibold uppercase text-slate-400">Total Stok HP</span>
+                            <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                                <i class="fa-solid fa-mobile"></i>
+                            </div>
+                        </div>
+                        <h3 id="statTotalStok" class="text-2xl font-bold text-slate-900">0 Unit</h3>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-semibold uppercase text-slate-400">Terjual Bulan Ini</span>
+                            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                                <i class="fa-solid fa-bag-shopping"></i>
+                            </div>
+                        </div>
+                        <h3 id="statTerjualBulanIni" class="text-2xl font-bold text-slate-900">0 Unit</h3>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-semibold uppercase text-slate-400">Omset Bulan Ini</span>
+                            <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                                <i class="fa-solid fa-rupiah-sign"></i>
+                            </div>
+                        </div>
+                        <h3 id="statOmsetBulanIni" class="text-2xl font-bold text-slate-900">Rp 0</h3>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-semibold uppercase text-slate-400">Laba Bersih (Profit)</span>
+                            <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <h3 id="statLabaBulanIni" class="text-2xl font-bold text-slate-900">Rp 0</h3>
+                    </div>
+                </div>
+
+                <!-- Perbandingan Penjualan & Analisis -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                        <h3 class="text-lg font-bold text-slate-900 mb-4">Analisis Perbandingan Penjualan</h3>
+                        <div id="comparisonBox" class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-sm">
+                            Menghitung perbandingan data...
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                        <h3 class="text-lg font-bold text-slate-900 mb-4">Aktivitas Terakhir Toko</h3>
+                        <div id="logAktivitasBox" class="space-y-3 max-h-48 overflow-y-auto text-xs">
+                            <!-- Log aktivitas -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KONTEN: STOK HP TERSEDIA -->
+            <div id="content-stok" class="tab-content hidden space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <h2 class="text-xl font-bold text-slate-900">Daftar Stok Handphone Tersedia</h2>
+                    <input type="text" id="searchStok" onkeyup="renderStok()" placeholder="Cari merk / IMEI..." class="px-4 py-2 rounded-xl border border-slate-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-72">
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-400 text-xs uppercase font-semibold border-b border-slate-100">
+                                    <th class="p-4">Merk & Tipe</th>
+                                    <th class="p-4">Warna</th>
+                                    <th class="p-4">Kondisi</th>
+                                    <th class="p-4">Garansi</th>
+                                    <th class="p-4 admin-only">Harga Modal</th>
+                                    <th class="p-4">Harga Jual</th>
+                                    <th class="p-4">No. IMEI</th>
+                                    <th class="p-4 text-center">Aksi / Jual</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableStokBody" class="divide-y divide-slate-100 text-sm">
+                                <!-- Data dinamis -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KONTEN: INPUT STOK BARU (Admin Only) -->
+            <div id="content-inputStok" class="tab-content hidden">
+                <div class="max-w-2xl mx-auto bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-8">
+                    <h2 class="text-xl font-bold text-slate-900 mb-6">Form Input Stok Handphone Baru</h2>
+                    <form onsubmit="handleTambahStok(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Merk HP</label>
+                                <select id="inputMerk" required onchange="onMerkChange()" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"></select>
+                                <input type="text" id="inputMerkLain" placeholder="Ketik merk HP" class="hidden mt-2 w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Type / Seri</label>
+                                <select id="inputTipe" required onchange="onTipeChange()" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"></select>
+                                <input type="text" id="inputTipeLain" placeholder="Ketik type / seri HP" class="hidden mt-2 w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Warna</label>
+                                <input type="text" id="inputWarna" required placeholder="Contoh: Hitam / Graphite" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Kondisi</label>
+                                <select id="inputKondisi" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="Baru">Baru (New)</option>
+                                    <option value="Bekas">Bekas (Second)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Garansi</label>
+                                <input type="text" id="inputGaransi" required placeholder="Contoh: Resmi 1 Tahun" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Tanggal Masuk</label>
+                                <input type="date" id="inputTanggal" required class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Harga Beli / Modal (Rp)</label>
+                                <input type="number" id="inputModal" required placeholder="Contoh: 4000000" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Harga Jual (Rp)</label>
+                                <input type="number" id="inputHarga" required placeholder="Contoh: 4500000" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Nomor IMEI</label>
+                            <div class="flex space-x-2">
+                                <input type="text" id="inputImei" required placeholder="15 digit IMEI..." class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono">
+                                <button type="button" onclick="simulateScanBarcode()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 rounded-xl text-xs font-medium flex items-center justify-center transition whitespace-nowrap">
+                                    <i class="fa-solid fa-barcode mr-1"></i> Scan
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg shadow-blue-200 transition mt-4">
+                            Simpan Stok Handphone
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- KONTEN: RIWAYAT TERJUAL & PELANGGAN -->
+            <div id="content-terjual" class="tab-content hidden space-y-4">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-bold text-slate-900">Riwayat Terjual & Pelanggan WhatsApp</h2>
+                    <button onclick="exportDataExcel()" class="admin-only bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-semibold transition">
+                        <i class="fa-solid fa-file-excel mr-1"></i> Export Laporan
+                    </button>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-400 text-xs uppercase font-semibold border-b border-slate-100">
+                                    <th class="p-4">Tanggal</th>
+                                    <th class="p-4">Pelanggan & WA</th>
+                                    <th class="p-4">Merk & Tipe HP</th>
+                                    <th class="p-4">Harga Jual</th>
+                                    <th class="p-4 admin-only">Keuntungan</th>
+                                    <th class="p-4 text-center">Aksi / Nota</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableTerjualBody" class="divide-y divide-slate-100 text-sm">
+                                <!-- Data dinamis -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KONTEN: KEUANGAN / PENGELUARAN TOKO (Admin Only) -->
+            <div id="content-keuangan" class="tab-content hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm md:col-span-1">
+                        <h2 class="text-lg font-bold text-slate-900 mb-4">Catat Pengeluaran Toko</h2>
+                        <form onsubmit="handleTambahPengeluaran(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Keterangan Biaya</label>
+                                <input type="text" id="ketBiaya" required placeholder="Contoh: Bayar Listrik / Wifi" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Jumlah (Rp)</label>
+                                <input type="number" id="jmlBiaya" required placeholder="Contoh: 150000" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm">
+                            </div>
+                            <button type="submit" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 rounded-xl text-sm transition">
+                                Simpan Pengeluaran
+                            </button>
+                        </form>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm md:col-span-2">
+                        <h2 class="text-lg font-bold text-slate-900 mb-4">Riwayat Pengeluaran Operasional</h2>
+                        <div class="overflow-x-auto max-h-64 overflow-y-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-400 text-xs uppercase font-semibold border-b">
+                                        <th class="p-3">Tanggal</th>
+                                        <th class="p-3">Keterangan</th>
+                                        <th class="p-3">Nominal</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBiayaBody" class="divide-y divide-slate-100 text-sm">
+                                    <!-- Dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KONTEN: KELOLA AKUN LOGIN (Admin Only) -->
+            <div id="content-users" class="tab-content hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm md:col-span-1">
+                        <h2 class="text-lg font-bold text-slate-900 mb-4">Tambah / Buat Akun Baru</h2>
+                        <form onsubmit="handleTambahUser(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Username Baru</label>
+                                <input type="text" id="newUser" required placeholder="Contoh: azzam_owner atau kasir2" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Password Baru</label>
+                                <input type="password" id="newPass" required placeholder="••••••••" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Peran (Role)</label>
+                                <select id="newRole" class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-sm">
+                                    <option value="admin">Admin / Owner</option>
+                                    <option value="kasir">Kasir / Karyawan</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl text-sm transition shadow-md">
+                                Simpan Akun
+                            </button>
+                        </form>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm md:col-span-2">
+                        <h2 class="text-lg font-bold text-slate-900 mb-4">Daftar Akun yang Terdaftar di Toko</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-50 text-slate-400 text-xs uppercase font-semibold border-b">
+                                        <th class="p-3">Username</th>
+                                        <th class="p-3">Role / Peran</th>
+                                        <th class="p-3 text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableUsersBody" class="divide-y divide-slate-100 text-sm">
+                                    <!-- Dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- MODAL INPUT DATA PEMBELI & WHATSAPP SAAT PENJUALAN -->
+    <div id="modalJual" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl">
+            <h3 class="text-lg font-bold text-slate-900 mb-4">Konfirmasi Data Pembeli</h3>
+            <form onsubmit="prosesJualFinal(event)" class="space-y-4">
+                <input type="hidden" id="modalStokId">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Nama Pembeli</label>
+                    <input type="text" id="pembeliNama" required placeholder="Contoh: Bpk. Ahmad" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm bg-slate-50">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Nomor WhatsApp Pembeli</label>
+                    <input type="text" id="pembeliWa" required placeholder="Contoh: 081234567890" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm bg-slate-50">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Alamat Pembeli</label>
+                    <textarea id="pembeliAlamat" required rows="2" placeholder="Contoh: Jl. Merdeka No. 10, Kec. ..." class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm bg-slate-50"></textarea>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Nama Karyawan</label>
+                    <input type="text" id="namaKaryawan" required placeholder="Contoh: Rina" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm bg-slate-50">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Nama Sales</label>
+                    <input type="text" id="namaSales" required placeholder="Contoh: Andi" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm bg-slate-50">
+                </div>
+                <div class="flex space-x-3 pt-2">
+                    <button type="button" onclick="closeModalJual()" class="w-1/2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-3 rounded-xl text-sm transition">Batal</button>
+                    <button type="submit" class="w-1/2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl text-sm transition">Proses & Cetak Nota</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL CETAK NOTA STRUK -->
+    <div id="modalNota" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-2xl p-6 shadow-2xl space-y-4">
+            <div id="printArea" class="bg-white p-4 border border-dashed border-slate-300 rounded-xl text-xs space-y-2 font-mono">
+                <div class="text-center pb-2 border-b border-dashed border-slate-300">
+                    <h2 class="font-bold text-sm">AZZAM STORE</h2>
+                    <p class="text-[10px] text-slate-500">Pusat Jual Beli Handphone & Aksesoris</p>
+                    <p id="notaTanggal" class="text-[10px] text-slate-400 mt-1"></p>
+                </div>
+                <div class="space-y-1">
+                    <p><strong>Pembeli:</strong> <span id="notaPembeli"></span></p>
+                    <p><strong>No. WA:</strong> <span id="notaWa"></span></p>
+                    <p><strong>Alamat:</strong> <span id="notaAlamat"></span></p>
+                    <p><strong>Karyawan:</strong> <span id="notaKaryawan"></span></p>
+                    <p><strong>Sales:</strong> <span id="notaSales"></span></p>
+                    <p><strong>Kasir:</strong> <span id="notaKasir"></span></p>
+                </div>
+                <div class="border-t border-b border-dashed border-slate-300 py-2 space-y-1">
+                    <p><strong>Unit HP:</strong> <span id="notaMerk"></span></p>
+                    <p><strong>Warna:</strong> <span id="notaWarna"></span></p>
+                    <p><strong>IMEI:</strong> <span id="notaImei"></span></p>
+                    <p><strong>Garansi:</strong> <span id="notaGaransi"></span></p>
+                </div>
+                <div class="flex justify-between font-bold text-sm pt-1">
+                    <span>TOTAL:</span>
+                    <span id="notaHarga"></span>
+                </div>
+                <div class="text-center pt-3 text-[10px] text-slate-500 border-t border-dashed border-slate-300">
+                    <p>Terima Kasih Telah Berbelanja di AZZAM STORE!</p>
+                    <p>Garansi toko sesuai ketentuan.</p>
+                </div>
+            </div>
+            <div class="flex space-x-2 pt-2">
+                <button onclick="window.print()" class="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-xl text-xs transition"><i class="fa-solid fa-print mr-1"></i> Cetak</button>
+                <button onclick="closeModalNota()" class="w-1/2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2.5 rounded-xl text-xs transition">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APLIKASI -->
+    <script>
+        document.getElementById('inputTanggal').valueAsDate = new Date();
+
+        let currentUser = null;
+
+        // Data Akun Login (Default Admin & Kasir)
+        let dataUsers = JSON.parse(localStorage.getItem('azzam_users')) || [
+            { username: 'admin', pass: 'admin123', role: 'admin' },
+            { username: 'kasir', pass: 'kasir123', role: 'kasir' }
+        ];
+
+        let dataStok = JSON.parse(localStorage.getItem('azzam_stok')) || [
+            { id: 1, merk: 'iPhone 13 128GB', warna: 'Midnight', kondisi: 'Baru', garansi: 'Resmi 1 Tahun', tanggal: '2026-10-01', modal: 10200000, harga: 11500000, imei: '356988102345678' },
+            { id: 2, merk: 'Samsung A55 5G', warna: 'Iceblue', kondisi: 'Baru', garansi: 'Resmi SEIN', tanggal: '2026-10-05', modal: 5000000, harga: 5700000, imei: '358123498765432' }
+        ];
+
+        let dataTerjual = JSON.parse(localStorage.getItem('azzam_terjual')) || [];
+        let dataBiaya = JSON.parse(localStorage.getItem('azzam_biaya')) || [];
+        let dataLog = JSON.parse(localStorage.getItem('azzam_log')) || [];
+
+        function saveData() {
+            localStorage.setItem('azzam_users', JSON.stringify(dataUsers));
+            localStorage.setItem('azzam_stok', JSON.stringify(dataStok));
+            localStorage.setItem('azzam_terjual', JSON.stringify(dataTerjual));
+            localStorage.setItem('azzam_biaya', JSON.stringify(dataBiaya));
+            localStorage.setItem('azzam_log', JSON.stringify(dataLog));
+        }
+
+        function addLog(aksi) {
+            const timeStr = new Date().toLocaleString('id-ID');
+            dataLog.unshift({ waktu: timeStr, user: currentUser.username, desc: aksi });
+            if(dataLog.length > 20) dataLog.pop();
+            saveData();
+        }
+
+        // Login Handler dengan Verifikasi Akun Tersimpan
+        function handleLogin(e) {
+            e.preventDefault();
+            const inputU = document.getElementById('loginUser').value.trim();
+            const inputP = document.getElementById('loginPass').value;
+
+            const foundUser = dataUsers.find(u => u.username === inputU && u.pass === inputP);
+
+            if(!foundUser) {
+                alert('Username atau Password salah! Silakan periksa kembali.');
+                return;
+            }
+
+            currentUser = { username: foundUser.username, role: foundUser.role };
+            
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('appContainer').classList.remove('hidden');
+            
+            document.getElementById('userBadge').innerText = foundUser.role === 'admin' ? 'Admin / Owner' : 'Kasir / Karyawan';
+            
+            document.querySelectorAll('.admin-only').forEach(el => {
+                if(foundUser.role === 'kasir') el.classList.add('hidden');
+                else el.classList.remove('hidden');
+            });
+
+            addLog(`Login ke sistem sebagai ${foundUser.role}`);
+            refreshAll();
+            // Karyawan/kasir hanya mendapat menu stok untuk input barang terjual
+            switchTab(foundUser.role === 'kasir' ? 'stok' : 'dashboard');
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('appContainer').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('loginForm').reset();
+        }
+
+        // Tambah User/Akun Baru oleh Admin
+        function handleTambahUser(e) {
+            e.preventDefault();
+            const uName = document.getElementById('newUser').value.trim();
+            const uPass = document.getElementById('newPass').value;
+            const uRole = document.getElementById('newRole').value;
+
+            // Cek apakah username sudah ada
+            if(dataUsers.some(u => u.username === uName)) {
+                alert('Username tersebut sudah digunakan! Gunakan nama lain.');
+                return;
+            }
+
+            dataUsers.push({ username: uName, pass: uPass, role: uRole });
+            addLog(`Membuat akun baru: ${uName} (${uRole})`);
+            saveData();
+            alert('Akun berhasil dibuat!');
+            e.target.reset();
+            renderUsers();
+        }
+
+        function hapusUser(username) {
+            if(username === 'admin') {
+                alert('Akun admin utama tidak dapat dihapus!');
+                return;
+            }
+            if(!confirm(`Hapus akses login untuk user @${username}?`)) return;
+
+            dataUsers = dataUsers.filter(u => u.username !== username);
+            addLog(`Menghapus akun: ${username}`);
+            saveData();
+            renderUsers();
+        }
+
+        function renderUsers() {
+            const tbody = document.getElementById('tableUsersBody');
+            tbody.innerHTML = '';
+            dataUsers.forEach(u => {
+                const badgeRole = u.role === 'admin' ? 'bg-blue-50 text-blue-600' : 'bg-amber-50 text-amber-600';
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-3 font-semibold text-slate-800">@${u.username}</td>
+                        <td class="p-3"><span class="px-2.5 py-1 rounded-full text-xs font-semibold ${badgeRole}">${u.role.toUpperCase()}</span></td>
+                        <td class="p-3 text-center">
+                            ${u.username !== 'admin' ? `<button onclick="hapusUser('${u.username}')" class="text-red-500 hover:text-red-700 text-xs font-semibold"><i class="fa-solid fa-trash mr-1"></i> Hapus</button>` : '<span class="text-xs text-slate-400">Proteksi Sistem</span>'}
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('bg-blue-600', 'text-white', 'shadow-md', 'shadow-blue-100');
+                el.classList.add('bg-white', 'text-slate-600');
+            });
+
+            document.getElementById('content-' + tabId).classList.remove('hidden');
+            const activeBtn = document.getElementById('tab-' + tabId);
+            activeBtn.classList.remove('bg-white', 'text-slate-600');
+            activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-md', 'shadow-blue-100');
+
+            if(tabId === 'dashboard') updateDashboard();
+            if(tabId === 'stok') renderStok();
+            if(tabId === 'terjual') renderTerjual();
+            if(tabId === 'keuangan') renderKeuangan();
+            if(tabId === 'users') renderUsers();
+        }
+
+        function simulateScanBarcode() {
+            const randomImei = Math.floor(100000000000000 + Math.random() * 900000000000000).toString();
+            document.getElementById('inputImei').value = randomImei;
+            alert('Scan Barcode IMEI Berhasil: ' + randomImei);
+        }
+
+        // Daftar pilihan merk dan type/seri HP untuk form input stok
+        const DAFTAR_HP = {
+            'Samsung': ['Galaxy S24 Ultra', 'Galaxy S24+', 'Galaxy S24', 'Galaxy S23 FE', 'Galaxy Z Fold6', 'Galaxy Z Flip6', 'Galaxy A55 5G', 'Galaxy A35 5G', 'Galaxy A25 5G', 'Galaxy A16', 'Galaxy A15', 'Galaxy A06', 'Galaxy A05s', 'Galaxy M35 5G', 'Galaxy M15 5G'],
+            'iPhone': ['iPhone 16 Pro Max', 'iPhone 16 Pro', 'iPhone 16 Plus', 'iPhone 16', 'iPhone 15 Pro Max', 'iPhone 15 Pro', 'iPhone 15 Plus', 'iPhone 15', 'iPhone 14 Pro Max', 'iPhone 14 Pro', 'iPhone 14', 'iPhone 13', 'iPhone 12', 'iPhone 11', 'iPhone SE'],
+            'Xiaomi': ['Xiaomi 14T Pro', 'Xiaomi 14T', 'Xiaomi 14', 'Redmi Note 13 Pro+ 5G', 'Redmi Note 13 Pro', 'Redmi Note 13', 'Redmi 14C', 'Redmi 13', 'Redmi 13C', 'Redmi A3', 'POCO F6', 'POCO X6 Pro', 'POCO M6 Pro', 'POCO C65'],
+            'OPPO': ['Find X8', 'Reno12 Pro 5G', 'Reno12 F', 'Reno11 F 5G', 'A3 Pro', 'A3x', 'A60', 'A58', 'A38', 'A18'],
+            'vivo': ['X200', 'X100 Pro', 'V40', 'V40 Lite', 'V30', 'Y100', 'Y28', 'Y19s', 'Y18', 'Y03', 'T3'],
+            'realme': ['realme GT 6', 'realme 13 Pro+ 5G', 'realme 13 Pro 5G', 'realme 12 Pro+', 'realme 12', 'realme C75', 'realme C67', 'realme C65', 'realme C61', 'realme Note 60', 'realme Note 50', 'NARZO 70 Pro'],
+            'Infinix': ['ZERO 40', 'ZERO 30', 'GT 20 Pro', 'NOTE 40 Pro', 'NOTE 40', 'HOT 50 Pro+', 'HOT 50', 'HOT 40 Pro', 'HOT 40i', 'SMART 9', 'SMART 8'],
+            'Tecno': ['CAMON 30', 'POVA 6 Pro', 'POVA 6 Neo', 'SPARK 30 Pro', 'SPARK 30', 'SPARK 20 Pro', 'SPARK Go 2024'],
+            'itel': ['S24', 'RS4', 'P55', 'A70', 'A50'],
+            'Google Pixel': ['Pixel 9 Pro', 'Pixel 9', 'Pixel 8 Pro', 'Pixel 8', 'Pixel 8a', 'Pixel 7a'],
+            'ASUS': ['ROG Phone 8 Pro', 'ROG Phone 8', 'Zenfone 11 Ultra', 'Zenfone 10'],
+            'Nokia': ['G42 5G', 'C32', 'C22', '105', '110']
+        };
+        const OPSI_LAIN = '__lainnya__';
+
+        function isiPilihan(select, daftar, placeholder) {
+            select.innerHTML = `<option value="">${placeholder}</option>` +
+                daftar.map(v => `<option value="${v}">${v}</option>`).join('') +
+                `<option value="${OPSI_LAIN}">Lainnya (ketik manual)</option>`;
+        }
+
+        function initPilihanHp() {
+            isiPilihan(document.getElementById('inputMerk'), Object.keys(DAFTAR_HP), '-- Pilih Merk HP --');
+            onMerkChange();
+        }
+
+        function onMerkChange() {
+            const merk = document.getElementById('inputMerk').value;
+            const merkLain = document.getElementById('inputMerkLain');
+            merkLain.classList.toggle('hidden', merk !== OPSI_LAIN);
+            merkLain.required = merk === OPSI_LAIN;
+            if (merk !== OPSI_LAIN) merkLain.value = '';
+            isiPilihan(document.getElementById('inputTipe'), DAFTAR_HP[merk] || [], merk ? '-- Pilih Type / Seri --' : '-- Pilih merk dulu --');
+            onTipeChange();
+        }
+
+        function onTipeChange() {
+            const tipe = document.getElementById('inputTipe').value;
+            const tipeLain = document.getElementById('inputTipeLain');
+            tipeLain.classList.toggle('hidden', tipe !== OPSI_LAIN);
+            tipeLain.required = tipe === OPSI_LAIN;
+            if (tipe !== OPSI_LAIN) tipeLain.value = '';
+        }
+
+        function handleTambahStok(e) {
+            e.preventDefault();
+            const merkPilih = document.getElementById('inputMerk').value;
+            const tipePilih = document.getElementById('inputTipe').value;
+            const merkHp = merkPilih === OPSI_LAIN ? document.getElementById('inputMerkLain').value.trim() : merkPilih;
+            const tipeHp = tipePilih === OPSI_LAIN ? document.getElementById('inputTipeLain').value.trim() : tipePilih;
+            const newItem = {
+                id: Date.now(),
+                merk: `${merkHp} ${tipeHp}`,
+                merkHp: merkHp,
+                tipe: tipeHp,
+                warna: document.getElementById('inputWarna').value,
+                kondisi: document.getElementById('inputKondisi').value,
+                garansi: document.getElementById('inputGaransi').value,
+                tanggal: document.getElementById('inputTanggal').value,
+                modal: Number(document.getElementById('inputModal').value),
+                harga: Number(document.getElementById('inputHarga').value),
+                imei: document.getElementById('inputImei').value
+            };
+
+            dataStok.push(newItem);
+            addLog(`Menambahkan stok HP baru: ${newItem.merk}`);
+            saveData();
+            alert('Stok HP berhasil disimpan!');
+            e.target.reset();
+            onMerkChange();
+            document.getElementById('inputTanggal').valueAsDate = new Date();
+            switchTab('stok');
+        }
+
+        function renderStok() {
+            const keyword = document.getElementById('searchStok').value.toLowerCase();
+            const tbody = document.getElementById('tableStokBody');
+            tbody.innerHTML = '';
+
+            const filtered = dataStok.filter(item => 
+                item.merk.toLowerCase().includes(keyword) || item.imei.toLowerCase().includes(keyword)
+            );
+
+            if(filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-400">Tidak ada stok HP ditemukan.</td></tr>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const badgeColor = item.kondisi === 'Baru' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600';
+                const showModalClass = currentUser.role === 'kasir' ? 'hidden' : '';
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-4 font-semibold text-slate-800">${item.merk}</td>
+                        <td class="p-4 text-slate-600">${item.warna}</td>
+                        <td class="p-4"><span class="px-2.5 py-1 rounded-full text-xs font-semibold ${badgeColor}">${item.kondisi}</span></td>
+                        <td class="p-4 text-slate-600">${item.garansi}</td>
+                        <td class="p-4 text-slate-500 ${showModalClass}">Rp ${item.modal.toLocaleString('id-ID')}</td>
+                        <td class="p-4 font-medium text-blue-600">Rp ${item.harga.toLocaleString('id-ID')}</td>
+                        <td class="p-4 font-mono text-xs text-slate-500">${item.imei}</td>
+                        <td class="p-4 text-center">
+                            <button onclick="bukaModalJual(${item.id})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold shadow-sm transition">
+                                <i class="fa-solid fa-cart-shopping mr-1"></i> Terjual
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function bukaModalJual(id) {
+            document.getElementById('modalStokId').value = id;
+            document.getElementById('pembeliNama').value = '';
+            document.getElementById('pembeliWa').value = '';
+            document.getElementById('pembeliAlamat').value = '';
+            document.getElementById('namaKaryawan').value = '';
+            document.getElementById('namaSales').value = '';
+            document.getElementById('modalJual').classList.remove('hidden');
+        }
+
+        function closeModalJual() {
+            document.getElementById('modalJual').classList.add('hidden');
+        }
+
+        function prosesJualFinal(e) {
+            e.preventDefault();
+            const id = Number(document.getElementById('modalStokId').value);
+            const namaPembeli = document.getElementById('pembeliNama').value;
+            const waPembeli = document.getElementById('pembeliWa').value;
+            const alamatPembeli = document.getElementById('pembeliAlamat').value.trim();
+            const namaKaryawan = document.getElementById('namaKaryawan').value.trim();
+            const namaSales = document.getElementById('namaSales').value.trim();
+
+            const index = dataStok.findIndex(item => item.id === id);
+            if(index !== -1) {
+                const soldItem = dataStok.splice(index, 1)[0];
+                const laba = soldItem.harga - soldItem.modal;
+                const tanggalStr = new Date().toISOString().split('T')[0];
+                
+                const terjualRecord = {
+                    id: Date.now(),
+                    merk: soldItem.merk,
+                    warna: soldItem.warna,
+                    garansi: soldItem.garansi,
+                    harga: soldItem.harga,
+                    modal: soldItem.modal,
+                    laba: laba,
+                    tanggal: tanggalStr,
+                    imei: soldItem.imei,
+                    pembeli: namaPembeli,
+                    wa: waPembeli,
+                    alamat: alamatPembeli,
+                    karyawan: namaKaryawan,
+                    sales: namaSales,
+                    kasir: currentUser.username
+                };
+
+                dataTerjual.push(terjualRecord);
+                addLog(`Menjual unit ${soldItem.merk} kepada ${namaPembeli}`);
+                saveData();
+                closeModalJual();
+                renderStok();
+                tampilkanNota(terjualRecord);
+            }
+        }
+
+        function tampilkanNota(item) {
+            document.getElementById('notaTanggal').innerText = item.tanggal;
+            document.getElementById('notaPembeli').innerText = item.pembeli;
+            document.getElementById('notaWa').innerText = item.wa;
+            document.getElementById('notaAlamat').innerText = item.alamat || '-';
+            document.getElementById('notaKaryawan').innerText = item.karyawan || '-';
+            document.getElementById('notaSales').innerText = item.sales || '-';
+            document.getElementById('notaKasir').innerText = '@' + item.kasir;
+            document.getElementById('notaMerk').innerText = item.merk + ' (' + item.warna + ')';
+            document.getElementById('notaWarna').innerText = item.warna;
+            document.getElementById('notaImei').innerText = item.imei;
+            document.getElementById('notaGaransi').innerText = item.garansi;
+            document.getElementById('notaHarga').innerText = 'Rp ' + item.harga.toLocaleString('id-ID');
+            document.getElementById('modalNota').classList.remove('hidden');
+        }
+
+        function closeModalNota() {
+            document.getElementById('modalNota').classList.add('hidden');
+        }
+
+        function renderTerjual() {
+            const tbody = document.getElementById('tableTerjualBody');
+            tbody.innerHTML = '';
+
+            if(dataTerjual.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">Belum ada riwayat penjualan.</td></tr>`;
+                return;
+            }
+
+            dataTerjual.slice().reverse().forEach(item => {
+                const showLabaClass = currentUser.role === 'kasir' ? 'hidden' : '';
+                let cleanWa = item.wa.startsWith('0') ? '62' + item.wa.slice(1) : item.wa;
+                let waLink = `https://wa.me/${cleanWa}?text=Halo%20${encodeURIComponent(item.pembeli)},%20terima%20kasih%20telah%20membeli%20${encodeURIComponent(item.merk)}%20di%20AZZAM%20STORE.%20Jika%20ada%20kendala%20silakan%20hubungi%20kami.`;
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-4 text-slate-600">${item.tanggal}</td>
+                        <td class="p-4">
+                            <span class="font-semibold text-slate-800">${item.pembeli || '-'}</span><br>
+                            <a href="${waLink}" target="_blank" class="text-xs text-emerald-600 hover:underline"><i class="fa-brands fa-whatsapp"></i> ${item.wa || '-'}</a>
+                            <p class="text-xs text-slate-500 mt-1"><i class="fa-solid fa-location-dot mr-1"></i>${item.alamat || '-'}</p>
+                            <p class="text-xs text-slate-500"><i class="fa-solid fa-user-tie mr-1"></i>Karyawan: ${item.karyawan || '-'}</p>
+                            <p class="text-xs text-slate-500"><i class="fa-solid fa-handshake mr-1"></i>Sales: ${item.sales || '-'}</p>
+                        </td>
+                        <td class="p-4 font-semibold text-slate-800">${item.merk} <br><span class="font-mono text-xs text-slate-400">IMEI: ${item.imei}</span></td>
+                        <td class="p-4 font-medium text-emerald-600">Rp ${item.harga.toLocaleString('id-ID')}</td>
+                        <td class="p-4 font-semibold text-purple-600 ${showLabaClass}">+Rp ${item.laba.toLocaleString('id-ID')}</td>
+                        <td class="p-4 text-center">
+                            <button onclick='tampilkanNota(${JSON.stringify(item)})' class="bg-blue-50 hover:bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg text-xs font-semibold transition">
+                                <i class="fa-solid fa-receipt mr-1"></i> Nota
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function handleTambahPengeluaran(e) {
+            e.preventDefault();
+            const biayaItem = {
+                id: Date.now(),
+                ket: document.getElementById('ketBiaya').value,
+                jumlah: Number(document.getElementById('jmlBiaya').value),
+                tanggal: new Date().toISOString().split('T')[0]
+            };
+            dataBiaya.push(biayaItem);
+            addLog(`Mencatat pengeluaran toko: ${biayaItem.ket}`);
+            saveData();
+            alert('Pengeluaran berhasil disimpan!');
+            e.target.reset();
+            renderKeuangan();
+        }
+
+        function renderKeuangan() {
+            const tbody = document.getElementById('tableBiayaBody');
+            tbody.innerHTML = '';
+            if(dataBiaya.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="p-4 text-center text-slate-400">Belum ada catatan pengeluaran.</td></tr>`;
+                return;
+            }
+            dataBiaya.slice().reverse().forEach(b => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50">
+                        <td class="p-3 text-slate-600">${b.tanggal}</td>
+                        <td class="p-3 font-medium text-slate-800">${b.ket}</td>
+                        <td class="p-3 text-red-600 font-semibold">-Rp ${b.jumlah.toLocaleString('id-ID')}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function updateDashboard() {
+            document.getElementById('statTotalStok').innerText = dataStok.length + ' Unit';
+
+            const now = new Date();
+            const currentMonth = now.getMonth();
+            const currentYear = now.getFullYear();
+
+            let totalBulanIni = 0;
+            let omsetBulanIni = 0;
+            let labaBulanIni = 0;
+            let omsetBulanLalu = 0;
+
+            dataTerjual.forEach(item => {
+                const tgl = new Date(item.tanggal);
+                if(tgl.getMonth() === currentMonth && tgl.getFullYear() === currentYear) {
+                    totalBulanIni++;
+                    omsetBulanIni += item.harga;
+                    labaBulanIni += item.laba;
+                } else if(tgl.getMonth() === (currentMonth - 1 === -1 ? 11 : currentMonth - 1)) {
+                    omsetBulanLalu += item.harga;
+                }
+            });
+
+            document.getElementById('statTerjualBulanIni').innerText = totalBulanIni + ' Unit';
+            document.getElementById('statOmsetBulanIni').innerText = 'Rp ' + omsetBulanIni.toLocaleString('id-ID');
+            document.getElementById('statLabaBulanIni').innerText = 'Rp ' + labaBulanIni.toLocaleString('id-ID');
+
+            const box = document.getElementById('comparisonBox');
+            let diff = omsetBulanIni - omsetBulanLalu;
+            let persen = omsetBulanLalu > 0 ? ((diff / omsetBulanLalu) * 100).toFixed(1) : 100;
+
+            if(omsetBulanIni >= omsetBulanLalu) {
+                box.innerHTML = `<p class="text-emerald-700 font-medium"><i class="fa-solid fa-arrow-trend-up mr-1"></i> Omset bulan ini meningkat <strong>${persen}%</strong> dibanding bulan lalu.</p>`;
+            } else {
+                box.innerHTML = `<p class="text-amber-700 font-medium"><i class="fa-solid fa-arrow-trend-down mr-1"></i> Omset bulan ini lebih rendah sekitar <strong>${Math.abs(persen)}%</strong> dibanding bulan lalu.</p>`;
+            }
+
+            const logBox = document.getElementById('logAktivitasBox');
+            logBox.innerHTML = '';
+            if(dataLog.length === 0) {
+                logBox.innerHTML = `<p class="text-slate-400">Belum ada aktivitas.</p>`;
+            } else {
+                dataLog.slice(0, 5).forEach(l => {
+                    logBox.innerHTML += `<div class="p-2 bg-slate-50 rounded-lg border border-slate-100 flex justify-between"><span><strong>@${l.user}</strong>: ${l.desc}</span><span class="text-slate-400">${l.waktu}</span></div>`;
+                });
+            }
+        }
+
+        function exportDataExcel() {
+            let csv = 'Tanggal,Pembeli,No. WhatsApp,Alamat,Merk HP,Warna,IMEI,Harga Jual,Keuntungan,Nama Karyawan,Nama Sales,Kasir\n';
+            dataTerjual.forEach(item => {
+                csv += `${item.tanggal},"${item.pembeli || '-'}","${item.wa || '-'}","${(item.alamat || '-').replace(/"/g, '""')}","${item.merk}","${item.warna}",${item.imei},${item.harga},${item.laba},"${item.karyawan || '-'}","${item.sales || '-'}",${item.kasir}\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Laporan_Penjualan_AzzamStore.csv';
+            a.click();
+        }
+
+        function refreshAll() {
+            updateDashboard();
+            renderStok();
+            renderTerjual();
+            renderKeuangan();
+            renderUsers();
+        }
+
+        initPilihanHp();
+    </script>
+</body>
+</html>
